@@ -25,6 +25,11 @@ public class GameMaster : MonoBehaviour{
 		counter_trans.GetComponent<Text>().text = counter.ToString();
 	}
 
+	public void count_set(int number){
+		counter = number;
+		counter_trans.GetComponent<Text>().text = counter.ToString();
+	}
+
 	public int get_stage_index(){
 		return stage_index;
 	}
