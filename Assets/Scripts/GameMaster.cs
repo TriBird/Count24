@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class GameMaster : MonoBehaviour{
 
-	public Transform counter_trans, bits_trans;
+	public Transform counter_trans, bits_trans, clicktostart_trans;
 	
 	private int counter = 0;
 	private int stage_index = 0;
@@ -47,6 +47,9 @@ public class GameMaster : MonoBehaviour{
 			if(stage_index == 2){
 				bits_trans.DOLocalMoveY(-550f, 1.0f);
 				bits_trans.GetChild(0).DOLocalMoveY(-700f, 0.5f);
+			}
+			if(stage_index == 3){
+				clicktostart_trans.GetComponent<StartBtnUnit>().Stage4_preparation();
 			}
 		});
 	}
