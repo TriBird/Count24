@@ -13,5 +13,7 @@ public class StartBtnCtrl : MonoBehaviour, IPointerClickHandler{
 		if(master.get_stage_index() == 0){
 			master.count_increment();
 		}
+
+		
 	}
 }
