@@ -38,6 +38,7 @@ public class BitCtrl : MonoBehaviour, IDragHandler, IPointerClickHandler{
 			}
 			master.count_set(result);
 		}
+
 	}
 
 	void Start(){

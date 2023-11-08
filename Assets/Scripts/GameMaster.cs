@@ -6,8 +6,9 @@ using DG.Tweening;
 
 public class GameMaster : MonoBehaviour{
 
-	public Transform counter_trans, bits_trans;
-	
+	public Transform counter_trans, bits_trans, clicktostart_trans;
+	public InputExt inputext_ins;
+
 	private int counter = 0;
 	private int stage_index = 0;
 
@@ -47,6 +48,40 @@ public class GameMaster : MonoBehaviour{
 			if(stage_index == 2){
 				bits_trans.DOLocalMoveY(-550f, 1.0f);
 				bits_trans.GetChild(0).DOLocalMoveY(-700f, 0.5f);
+			}
+			if(stage_index == 3){
+				clicktostart_trans.GetComponent<StartBtnUnit>().Stage4_preparation();
+			}
+			if(stage_index == 4){
+				inputext_ins.isEnable = true;
+				inputext_ins.Add_target(new List<string>(){"2", "4", "t", "w", "e", "n", "y", "space", "f", "o", "u", "r"});
+				inputext_ins.SetInputCallback(()=>{
+					// limit -> 11 str
+					if(inputext_ins.GetStream().Length >= 12){
+						inputext_ins.ClearStream();
+						return;
+					}
+
+					counter_trans.GetComponent<Text>().text = inputext_ins.GetStream();
+
+					// judge
+					if(inputext_ins.GetStream() == "24"){
+						next_stage();
+						inputext_ins.isEnable = false;
+						DOVirtual.DelayedCall(1.0f, ()=>{
+							inputext_ins.ClearStream();
+							inputext_ins.isEnable = true;
+						});
+					}
+					if(inputext_ins.GetStream() == "twenty four"){
+						next_stage();
+						inputext_ins.isEnable = false;
+						DOVirtual.DelayedCall(1.0f, ()=>{
+							inputext_ins.ClearStream();
+							inputext_ins.isEnable = true;
+						});
+					}
+				});
 			}
 		});
 	}
