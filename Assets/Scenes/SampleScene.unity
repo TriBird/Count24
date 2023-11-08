@@ -1009,6 +1009,7 @@ GameObject:
   m_Component:
   - component: {fileID: 728138286}
   - component: {fileID: 728138287}
+  - component: {fileID: 728138288}
   m_Layer: 0
   m_Name: ScriptMaster
   m_TagString: Untagged
@@ -1046,6 +1047,20 @@ MonoBehaviour:
   counter_trans: {fileID: 1793430716}
   bits_trans: {fileID: 1898043398}
   clicktostart_trans: {fileID: 408697914}
+  inputext_ins: {fileID: 728138288}
+--- !u!114 &728138288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728138285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d3ceced24d24a4ea13c7fb6d81d4c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnable: 0
 --- !u!1 &984528808
 GameObject:
   m_ObjectHideFlags: 0
