@@ -7,7 +7,7 @@ using System.Threading;
 
 public class GameMaster : MonoBehaviour{
 
-	public Transform counter_trans, bits_trans, clicktostart_trans;
+	public Transform counter_trans, bits_trans, clicktostart_trans, count_trans;
 	public InputExt inputext_ins;
 
 	private int counter = 0;
@@ -19,6 +19,7 @@ public class GameMaster : MonoBehaviour{
 		initial_placement();
 
 		for(int i=0; i<stage_max; i++) clear_flags.Add(false);
+		ProgressDisplay();
 	}
 
 	public void initial_placement(){
@@ -39,9 +40,22 @@ public class GameMaster : MonoBehaviour{
 		if(counter == 24) clear_stage(gimmickID);
 	}
 
+	public void ProgressDisplay(){
+		string progressmarker = "";
+		foreach(bool flag in clear_flags){
+			if(flag){
+				progressmarker += "■";
+			}else{
+				progressmarker += "□";
+			}
+		}
+		count_trans.GetComponentInChildren<Text>().text = progressmarker;
+	}
+
 	public void clear_stage(int stage){
 		DOVirtual.DelayedCall(1.0f, ()=>{
 			clear_flags[stage] = true;
+			ProgressDisplay();
 			count_set(0, 0);
 
 			if(stage == 0){

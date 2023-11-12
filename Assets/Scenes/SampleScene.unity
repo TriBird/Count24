@@ -1122,6 +1122,7 @@ MonoBehaviour:
   counter_trans: {fileID: 1793430716}
   bits_trans: {fileID: 1898043398}
   clicktostart_trans: {fileID: 408697914}
+  count_trans: {fileID: 1589552339}
   inputext_ins: {fileID: 728138288}
 --- !u!114 &728138288
 MonoBehaviour:
