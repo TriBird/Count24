@@ -92,4 +92,14 @@ public class GameMaster : MonoBehaviour{
 	public bool get_clear_flag(int stage_idx){
 		return clear_flags[stage_idx];
 	}
+
+	public void DebugBtn(){
+		for(int i=0; i<15; i++){
+			if(!clear_flags[i]){
+				print("Debug clear:" + i);
+				clear_stage(i);
+				return;
+			}
+		}
+	}
 }
