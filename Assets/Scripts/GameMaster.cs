@@ -3,56 +3,72 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Threading;
 
 public class GameMaster : MonoBehaviour{
 
-	public Transform counter_trans, bits_trans, clicktostart_trans;
+	public Transform counter_trans, bits_trans, clicktostart_trans, count_trans;
 	public InputExt inputext_ins;
 
 	private int counter = 0;
-	private int stage_index = 0;
+	private int stage_max = 15;
+
+	private List<bool> clear_flags = new List<bool>();
 
 	void Start(){
 		initial_placement();
+
+		for(int i=0; i<stage_max; i++) clear_flags.Add(false);
+		ProgressDisplay();
 	}
 
 	public void initial_placement(){
 		bits_trans.localPosition = new Vector2(0, -650f);
 	}
 
-	public void count_increment(){
+	public void count_increment(int gimmickID){
 		counter++;
 		counter_trans.GetComponent<Text>().text = counter.ToString();
 
-		if(counter == 24) next_stage();
+		if(counter == 24) clear_stage(gimmickID);
 	}
 
-	public void count_set(int number){
+	public void count_set(int number, int gimmickID){
 		counter = number;
 		counter_trans.GetComponent<Text>().text = counter.ToString();
 
-		if(counter == 24) next_stage();
+		if(counter == 24) clear_stage(gimmickID);
 	}
 
-	public void next_stage(){
-		stage_index++;
-		
-		// I want to show "24" before stage advance.
-		DOVirtual.DelayedCall(1.0f, ()=>{
-			counter = 0;
-			counter_trans.GetComponent<Text>().text = counter.ToString();
+	public void ProgressDisplay(){
+		string progressmarker = "";
+		foreach(bool flag in clear_flags){
+			if(flag){
+				progressmarker += "■";
+			}else{
+				progressmarker += "□";
+			}
+		}
+		count_trans.GetComponentInChildren<Text>().text = progressmarker;
+	}
 
-			if(stage_index == 1){
+	public void clear_stage(int stage){
+		DOVirtual.DelayedCall(1.0f, ()=>{
+			clear_flags[stage] = true;
+			ProgressDisplay();
+			count_set(0, 0);
+
+			if(stage == 0){
 				bits_trans.DOLocalMoveY(-600f, 1.0f);
 			}
-			if(stage_index == 2){
+			if(stage == 1){
 				bits_trans.DOLocalMoveY(-550f, 1.0f);
 				bits_trans.GetChild(0).DOLocalMoveY(-700f, 0.5f);
 			}
-			if(stage_index == 3){
-				clicktostart_trans.GetComponent<StartBtnUnit>().Stage4_preparation();
+			if(stage == 2){
+				clicktostart_trans.GetComponent<StartBtnUnit>().Stage3_preparation();
 			}
-			if(stage_index == 4){
+			if(stage == 3){
 				inputext_ins.isEnable = true;
 				inputext_ins.Add_target(new List<string>(){"2", "4", "t", "w", "e", "n", "y", "space", "f", "o", "u", "r"});
 				inputext_ins.SetInputCallback(()=>{
@@ -66,7 +82,8 @@ public class GameMaster : MonoBehaviour{
 
 					// judge
 					if(inputext_ins.GetStream() == "24"){
-						next_stage();
+						// next_stage();
+						clear_stage(4);
 						inputext_ins.isEnable = false;
 						DOVirtual.DelayedCall(1.0f, ()=>{
 							inputext_ins.ClearStream();
@@ -74,7 +91,7 @@ public class GameMaster : MonoBehaviour{
 						});
 					}
 					if(inputext_ins.GetStream() == "twenty four"){
-						next_stage();
+						clear_stage(5);
 						inputext_ins.isEnable = false;
 						DOVirtual.DelayedCall(1.0f, ()=>{
 							inputext_ins.ClearStream();
@@ -86,7 +103,17 @@ public class GameMaster : MonoBehaviour{
 		});
 	}
 
-	public int get_stage_index(){
-		return stage_index;
+	public bool get_clear_flag(int stage_idx){
+		return clear_flags[stage_idx];
+	}
+
+	public void DebugBtn(){
+		for(int i=0; i<15; i++){
+			if(!clear_flags[i]){
+				print("Debug clear:" + i);
+				clear_stage(i);
+				return;
+			}
+		}
 	}
 }

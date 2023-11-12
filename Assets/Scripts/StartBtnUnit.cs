@@ -19,20 +19,20 @@ public class StartBtnUnit : MonoBehaviour{
 		transform.Find("Hidden").GetComponent<Image>().color = col;
 	}
 
-	public void Stage1_Hundler(){
-		if(master.get_stage_index() == 0){
-			master.count_increment();
+	public void Stage0_Hundler(){
+		if(!master.get_clear_flag(0)){
+			master.count_increment(0);
 		}
 	}
 
-	public void Stage4_preparation(){
+	public void Stage3_preparation(){
 		transform.Find("StartBtn").GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.Linear);
 		transform.Find("FakeStartBtn").GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.Linear);
 	}
 
-	public void Stage4_HideBtnClicked(){
+	public void Stage3_HideBtnClicked(){
 		if(HideCounter >= 24) return;
-		if(master.get_stage_index() == 3){
+		if(!master.get_clear_flag(3)){
 			HideCounter++;
 			transform.Find("Hidden").GetComponentInChildren<Text>().text = "\n"+HideCounter.ToString();
 			
@@ -47,7 +47,7 @@ public class StartBtnUnit : MonoBehaviour{
 					seq.Append(transform.Find("Hidden/HideCounter").DOLocalMoveY(0f, 0.5f));
 				});
 				DOVirtual.DelayedCall(1.5f, ()=>{
-					master.count_set(24);
+					master.count_set(24, 3);
 					transform.Find("Hidden").GetComponentInChildren<Text>().text = "TYPE\n"+HideCounter.ToString();
 				});
 			}
